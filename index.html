@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Render Pele</title>
+<style>
+  :root { color-scheme: light dark; --bg: #fff; --fg: #111; --border: #ccc; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #111; --fg: #eee; --border: #444; } }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); font-family: system-ui, sans-serif; }
+  main { display: grid; grid-template-columns: 1fr 1fr; height: 100vh; }
+  textarea { width: 100%; height: 100%; padding: 16px; border: 0; border-right: 1px solid var(--border);
+    resize: none; outline: none; background: var(--bg); color: var(--fg);
+    font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+  #out { padding: 16px; overflow: auto; }
+  @media (max-width: 700px) { main { grid-template-columns: 1fr; grid-template-rows: 40vh 1fr; }
+    textarea { border-right: 0; border-bottom: 1px solid var(--border); } }
+</style>
+</head>
+<body>
+<main>
+  <textarea id="src" spellcheck="false" placeholder="Paste Mermaid/Pele code here">flowchart LR
+  A[Paste code] --> B[Pele] --> C[SVG]</textarea>
+  <div id="out"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/pele@1.12.0/dist/pele.global.js"></script>
+<script>
+  const src = document.getElementById('src');
+  const diagram = pele.mount(document.getElementById('out'), src.value);
+  src.addEventListener('input', () => diagram.update(src.value));
+</script>
+</body>
+</html>
